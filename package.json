@@ -1,0 +1,7 @@
+{
+  "name": "quill-report-config-check",
+  "version": "1.0.0",
+  "description": "Heuristic QA for customer-facing analytics configs: tenant filters, ambiguous metrics, SQL interpolation, timezone and freshness",
+  "scripts": { "test": "node --test" },
+  "license": "MIT"
+}
