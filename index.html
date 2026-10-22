@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Report Config Check</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>Report Config Check</h1>
+    <p class="sub">Customer-facing analytics fail in specific ways: a metric without a tenant filter leaks one customer's data to another, the same metric name quietly means two things, SQL gets interpolated, dates shift with undeclared timezones, and stale numbers read as current. Paste metric/report definitions, one per line as <code>kind | name | definition</code>. The check flags potential issues using pattern heuristics - not a semantic analyzer.</p>
+  </header>
+
+  <section class="card">
+    <label class="lbl" for="config">Metric and report definitions, one per line: <code>kind | name | definition</code></label>
+    <textarea id="config" rows="8" spellcheck="false">metric | revenue | sum(payments.amount)
+metric | revenue | sum(invoices.total) where tenant_id = :tenant tz=utc
+metric | active users | count(distinct sessions.user_id) where tenant_id = :tenant tz=utc
+report | weekly revenue | metric revenue where tenant_id = :tenant tz=utc</textarea>
+
+    <button id="run" type="button">Run config check</button>
+  </section>
+
+  <section id="results" class="hidden">
+    <div class="card">
+      <h2>Findings <span id="stats" class="stats"></span></h2>
+      <ul id="findings" class="findings"></ul>
+    </div>
+  </section>
+
+  <footer>Plain HTML, CSS and JavaScript. No external services, build step or secrets. Tests: <code>npm test</code>.</footer>
+</main>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
